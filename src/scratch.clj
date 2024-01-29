@@ -46,7 +46,7 @@
 
 (def items [:items sp/ALL])
 
-(sp/select [items :price] order-1)
+(sp/select [items food? :price] order-1)
 
 (sp/select-any (sp/traversed [items food? :price] +) order-1)
 
@@ -56,6 +56,8 @@
 (sp/multi-transform [items (sp/multi-path [drink? (sp/terminal add-glass-price)]
                                           [food? (sp/terminal food-discount)])]
                     order-1)
+
+(sp/transform [sp/ALL items food? :price] inc [order-1])
 
 (transduce (sp/traverse-all [items :price])
            +
